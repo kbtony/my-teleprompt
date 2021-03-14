@@ -6,22 +6,26 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
+USAGE = f"usage: python {sys.argv[0]} filename datetime"
+
 class CommandLine:
     def __init__(self):
-        if len(sys.argv) == 3:
+        # More than two cmd arguments
+        if len(sys.argv) > 3:
+            print("error: at most two command line arguments")
+            raise SystemExit(USAGE)
+        # Two arguments: filename, datetime
+        elif len(sys.argv) == 3:
             self.filename = sys.argv[1]
             self.query = sys.argv[2]
-        # no input argument
-        else:
+        # One argument: filename
+        elif len(sys.argv) == 2:
             self.filename = sys.argv[1]
             self.query = str(datetime.now().astimezone())
-
-# import argparse
-# parser = argparse.ArgumentParser()
-# parser.add_argument("file", type=str, help="filepath")
-# parser.add_argument("-d", "--datetime", required=False, type="str", default=str(datetime.now().astimezone()), help="the datetime")
-# args = parser.parse_args()
-# filename = args.file
+        # No arguments
+        else:
+            print("error: the following arguments are required: filename")
+            raise SystemExit(USAGE)
 
 # Function to read the input csv file
 def read_file(filename):
@@ -51,8 +55,8 @@ def utcoffset_to_seconds(time):
         minutes = 0
     return hours*3600 + minutes*60
 
-# Function to generate a datetime object for query in UTC (zero UTC offset)
-class query_generate(object):
+# Generate a datetime object for query in UTC (zero UTC offset)
+class Query(object):
     def __init__(self, query):
         # record the timezone (before or after UTC)
         self.early = True
@@ -101,7 +105,7 @@ def final_fnc(rows, date, check, second, early):
 def main():
     user_input = CommandLine()
     program_list = read_file(user_input.filename)
-    my_query = query_generate(user_input.query)
+    my_query = Query(user_input.query)
     final_fnc(program_list, my_query.date, my_query.check, my_query.second, my_query.early)
 
 if __name__=="__main__":
