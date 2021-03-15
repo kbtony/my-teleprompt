@@ -8,8 +8,11 @@ Testing with:
 * Pytest 6.2.2
 ## Launch
 To run this project,  
+
 Put **run.py** and the **CSV file** containing the program schedule data in the same directory.  
-My-teleprompt
-├── run.py
-└── test.csv  
-Our program supplies two command-line arguments.
+
+Our program supplies two command-line arguments. The first argument is required, it contains the file name of the CSV file. The second one, which stores the DateTime, is optional.  
+
+If you want to assign a specified DateTime (in ISO 8601 format including the UTC offset) for querying, run with:  
+> $ python3 run.py file_name.csv datetime  
+
