@@ -1,1 +1,2 @@
-# my-teleprompt
+# My-teleprompt
+My-teleprompt will list the TV shows that match the DateTime entered by the user according to the program schedule. The displayed information includes the current program and its ending time, followed by the two upcoming shows.
