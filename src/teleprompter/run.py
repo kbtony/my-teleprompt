@@ -1,6 +1,4 @@
-# importing csv module
 import csv
-# for command line arguments
 import sys
 from datetime import datetime
 from datetime import timedelta
@@ -14,15 +12,15 @@ class CommandLine:
         if len(sys.argv) > 3:
             print("error: at most two command line arguments")
             raise SystemExit(USAGE)
-        # Two arguments: filename, datetime
+        # Two cmd arguments: filename, datetime
         elif len(sys.argv) == 3:
             self.filename = sys.argv[1]
             self.query = sys.argv[2]
-        # One argument: filename
+        # One cmd argument: filename
         elif len(sys.argv) == 2:
             self.filename = sys.argv[1]
             self.query = str(datetime.now().astimezone())
-        # No arguments
+        # No cmd arguments
         else:
             print("error: the following arguments are required: filename")
             raise SystemExit(USAGE)
@@ -40,6 +38,11 @@ def read_file(filename):
             # extracting each data row one by one
             for row in csvreader:
                 rows.append(row)
+
+
+            # rows.append(['Testing', 'G', '22/06/21', '0:00', '10800'])
+            # print(rows[0])
+
             return rows
     except IOError:
         print("Error: can\'t find file or read data")
@@ -55,8 +58,8 @@ def utcoffset_to_seconds(time):
         minutes = 0
     return hours*3600 + minutes*60
 
-# Generate a datetime object for query in UTC (zero UTC offset)
-class Query(object):
+# Generate a datetime object in UTC (zero UTC offset)
+class Query:
     def __init__(self, query):
         # record the timezone (before or after UTC)
         self.early = True
@@ -83,6 +86,8 @@ class Query(object):
 def final_fnc(rows, date, check, second, early):
     for i in range(0, len(rows)):
         # parsing each column of a row
+        # !!! 這個if會有問題，csv 的month是19/06/21 還是 19/6/21 會影響exact match
+        # 我們的check是19/6/21 = =
         if (rows[i][2] == check):
             year = int("20" + rows[i][2].split("/")[2])
             month = int(rows[i][2].split("/")[1])
