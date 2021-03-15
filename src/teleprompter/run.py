@@ -27,20 +27,19 @@ class CommandLine:
 
 # Read the input csv file
 def read_file(filename: str):
-    fields = []
     rows = []
     try:
         with open(filename, 'r', encoding='ISO-8859-1') as csvfile:
             # Creating a csv reader object
             csvreader = csv.reader(csvfile)
-            # Extracting field names through first row
-            fields = next(csvreader)
+            # Skip first row (field names)
+            next(csvreader, None)
             # Extracting each data row one by one
             for row in csvreader:
                 rows.append(row)
             return rows
     except IOError:
-        print("Error: can\'t find file or read data")
+        print("Error: can't find file or read data")
 
 # Convert utcoffset into seconds
 def utcoffset_to_seconds(time: str):
@@ -68,7 +67,7 @@ class Query:
             self.second = utcoffset_to_seconds(self.time)
             self.date = datetime.fromisoformat(query.split("+")[0]) - timedelta(seconds=self.second)
         else:
-            # offset is right after the third "-"
+            # Offset is right after the third "-"
             self.time = query.split("-")[3]
             self.second = utcoffset_to_seconds(self.time)
             self.date = datetime.fromisoformat(query.split("+")[0]) + timedelta(seconds=self.second)
@@ -101,8 +100,8 @@ def lookup(program_list, query_date, check, second, early):
                     endtime = str((candidate_end + timedelta(seconds=second)).time())
                 else:
                     endtime = str((candidate_end - timedelta(seconds=second)).time())
-                programs = "[" + endtime[:5] + "]" + " That was " + program_list[i][0] + ", up next is " + program_list[i + 1][0]
-                programs = programs + " which is rated " + program_list[i + 1][1] + " and coming up later is " + program_list[i + 2][0] + "."
+                programs = "[{}] That was {}, up next is {} which is rated {} and coming up later is {}."\
+                    .format(endtime[:5],program_list[i][0] ,program_list[i + 1][0], program_list[i + 1][1], program_list[i + 2][0])
                 return programs
                 break
 
