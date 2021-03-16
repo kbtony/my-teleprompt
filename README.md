@@ -43,4 +43,5 @@ We then generate a DateTime object in UTC (zero UTC offset), and a check string 
 
 Finally, while traversing the program schedule, we use this check string to compare with the data in the *utc_start_data* field. Once the start date of a program is matched, we create two DateTime objects concerning this show, one for start time, one for the end time. We check whether the DateTime of the query is within the playing time of a certain program and output the results.
 ### Assumptions
-We assume that the data in the CSV file is sorted in ascending order according to *utc_start_date* and *utc_start_time*.
+We assume that the data in the CSV file is sorted in ascending order according to *utc_start_date* and *utc_start_time*.  
+We assume that the format of *utc_start_date* is 19/6/21 (as presented in example.csv) rather than 19/06/2021 (as shown in readme.pdf). Otherwise, our check string will never match.
