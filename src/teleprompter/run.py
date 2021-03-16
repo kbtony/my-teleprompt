@@ -83,7 +83,7 @@ def lookup(program_list, query_date, check, second, early):
         # Matching the UTC start date
         if (program_list[i][2] == check):
             # For each programs with correct start date
-            # Create two datetime object, one for start time, one for end time
+            # Create two datetime objects concerning this show, one for start time, one for the end time
             year = int("20" + program_list[i][2].split("/")[2])
             month = int(program_list[i][2].split("/")[1])
             day = int(program_list[i][2].split("/")[0])
